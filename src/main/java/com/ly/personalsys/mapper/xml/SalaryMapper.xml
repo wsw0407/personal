@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ly.personalsys.mapper.SalaryMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ly.personalsys.entity.Salary">
+        <id column="ID" property="id" />
+        <result column="DEPT_ID" property="deptId" />
+        <result column="JOB_ID" property="jobId" />
+        <result column="EMP_ID" property="empId" />
+        <result column="SALARY_STATION" property="salaryStation" />
+        <result column="SALARY_LEVEL" property="salaryLevel" />
+        <result column="SENIORITY_PAY" property="seniorityPay" />
+        <result column="PERFORMANCE" property="performance" />
+        <result column="INDIVIDUAL_INCOME" property="individualIncome" />
+        <result column="CREATE_DATE" property="createDate" />
+    </resultMap>
+
+
+    <select id="getListPages" resultType="com.ly.personalsys.entity.Salary">
+
+        SELECT si.*,ei.name empname,ji.name jobname,di.name deptname
+        FROM salary_inf si,employee_inf ei,job_inf ji,dept_inf di
+        WHERE si.emp_id = ei.id
+        AND   si.job_id = ji.id
+        AND   si.dept_id = di.id
+        <if test='content != null and content != ""'>
+
+            AND ( ei.name LIKE #{content}
+            OR    ji.name LIKE #{content}
+            OR    di.name LIKE #{content}
+            )
+
+        </if>
+
+
+    </select>
+
+
+    <select id="getSalaryByEmpId" resultType="com.ly.personalsys.entity.Salary">
+
+        SELECT si.*,ei.name empname,ji.name jobname,di.name deptname
+        FROM salary_inf si,employee_inf ei,job_inf ji,dept_inf di
+        WHERE si.emp_id = ei.id
+        AND   si.job_id = ji.id
+        AND   si.dept_id = di.id
+        AND   si.emp_id = #{empId}
+
+
+    </select>
+
+</mapper>

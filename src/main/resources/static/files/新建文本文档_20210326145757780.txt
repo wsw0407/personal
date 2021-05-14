@@ -1,0 +1,43 @@
+  <td>${employee.user.loginname}</td> <!--方便知道谁和谁关联  -->
+            <td>
+					 <c:choose>
+					      <c:when test="${employee.sex.id==1}">男</c:when>
+					      <c:otherwise><font>女</font></c:otherwise>
+					 </c:choose>
+			</td>
+            <td>${employee.phone }</td>
+            <td>${employee.user.email }</td>
+            <td>${employee.job.name }</td>
+            <td>${employee.dept.name }</td>
+            <td>${employee.education.name }</td>
+            <td>${employee.card_id }</td>
+            <td>${employee.address }</td>
+            <td>${employee.creatTimeStr}</td>
+
+
+txmvckmlfwfwhgdb
+
+fururmxhcehbbage
+
+
+wsw0407!@#$%^&*_-
+
+341281199904078978
+
+王世伟
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

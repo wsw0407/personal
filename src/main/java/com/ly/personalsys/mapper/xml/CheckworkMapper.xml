@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ly.personalsys.mapper.CheckworkMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ly.personalsys.entity.Checkwork">
+        <id column="ID" property="id" />
+        <result column="DEPT_ID" property="deptId" />
+        <result column="JOB_ID" property="jobId" />
+        <result column="EMP_ID" property="empId" />
+        <result column="WORKINGDAYS" property="workingdays" />
+        <result column="DAYSLEAVE" property="daysleave" />
+        <result column="CREATEDATE" property="createdate" />
+        <result column="DAYSOUT" property="daysout" />
+    </resultMap>
+
+
+    <select id="getCheckworkList" resultType="com.ly.personalsys.entity.Checkwork">
+        SELECT ci.*,ei.name empname,ji.name jobname,di.name deptname
+        FROM checkwork_inf ci,employee_inf ei,job_inf ji,dept_inf di
+        WHERE ci.EMP_ID = ei.id
+        AND   ci.JOB_ID = ji.id
+        AND   ci.DEPT_ID = di.id
+        <if test='content != null and content != ""'>
+            AND(ei.name LIKE #{content}
+            OR  ji.name LIKE #{content}
+            OR  di.name LIKE #{content}
+            )
+        </if>
+
+    </select>
+
+    <select id="getChecListByEmpId" resultType="com.ly.personalsys.entity.Checkwork">
+
+        SELECT ci.*,ei.name empname,ji.name jobname,di.name deptname
+        FROM checkwork_inf ci,employee_inf ei,job_inf ji,dept_inf di
+        WHERE ci.EMP_ID = ei.id
+        AND   ci.JOB_ID = ji.id
+        AND   ci.DEPT_ID = di.id
+        AND   ci.EMP_ID = #{empId}
+        <if test='content != null and content != ""'>
+            AND(ci.CREATEDATE LIKE #{content})
+        </if>
+        ORDER BY ci.CREATEDATE DESC
+
+    </select>
+
+</mapper>

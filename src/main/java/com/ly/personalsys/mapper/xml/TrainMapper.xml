@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ly.personalsys.mapper.TrainMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ly.personalsys.entity.Train">
+        <id column="id" property="id" />
+        <result column="emp_id" property="empId" />
+        <result column="dept_id" property="deptId" />
+        <result column="job_id" property="jobId" />
+        <result column="content" property="content" />
+        <result column="startdata" property="startdata" />
+        <result column="enddata" property="enddata" />
+        <result column="totallength" property="totallength" />
+        <result column="completion" property="completion" />
+        <result column="grade" property="grade" />
+        <result column="traintime" property="traintime" />
+    </resultMap>
+
+
+    <select id="getListPages" resultType="com.ly.personalsys.entity.Train">
+
+        SELECT ti.*,ei.name empname,ji.name jobname,di.name deptname,ci.name completionName
+        FROM  train_inf ti,employee_inf ei,job_inf ji,dept_inf di,completion_inf ci
+        WHERE ti.EMP_ID = ei.id
+        AND   ti.JOB_ID = ji.id
+        AND   ti.DEPT_ID = di.id
+        AND   ti.completion = ci.id
+        <if test='content != null and content != ""'>
+            AND(ei.name LIKE #{content}
+            OR  ji.name LIKE #{content}
+            OR  di.name LIKE #{content}
+            OR  ci.name LIKE #{content}
+            )
+        </if>
+
+    </select>
+
+    <select id="getTrainByEmpId" resultType="com.ly.personalsys.entity.Train">
+
+        SELECT ti.*,ei.name empname,ji.name jobname,di.name deptname,ci.name completionName
+        FROM  train_inf ti,employee_inf ei,job_inf ji,dept_inf di,completion_inf ci
+        WHERE ti.EMP_ID = ei.id
+        AND   ti.JOB_ID = ji.id
+        AND   ti.DEPT_ID = di.id
+        AND   ti.completion = ci.id
+        AND   ti.EMP_ID = #{empId}
+    </select>
+
+
+</mapper>

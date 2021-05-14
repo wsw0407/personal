@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ly.personalsys.mapper.DocumentMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ly.personalsys.entity.Document">
+        <id column="id" property="id" />
+        <result column="title" property="title" />
+        <result column="filename" property="filename" />
+        <result column="remark" property="remark" />
+        <result column="createdate" property="createdate" />
+        <result column="user_id" property="userId" />
+    </resultMap>
+
+    <select id="getDocumentList" resultType="com.ly.personalsys.entity.Document">
+        SELECT di.*,ui.username username
+        FROM document_inf di,user_inf ui
+        WHERE di.user_id=ui.id
+        <if test='content != null and content != ""'>
+            AND(di.filename LIKE #{content}
+            OR  di.title LIKE #{content}
+            OR  di.remark LIKE #{content}
+            OR  ui.username LIKE #{content}
+            )
+        </if>
+
+    </select>
+
+</mapper>

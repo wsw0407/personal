@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ly.personalsys.mapper.LeaveMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ly.personalsys.entity.Leave">
+        <id column="id" property="id" />
+        <result column="emp_id" property="empId" />
+        <result column="dept_id" property="deptId" />
+        <result column="job_id" property="jobId" />
+        <result column="startdata" property="startdata" />
+        <result column="enddata" property="enddata" />
+        <result column="leavedays" property="leavedays" />
+        <result column="leavetype" property="leavetype" />
+        <result column="content" property="content" />
+        <result column="leavestatus" property="leavestatus" />
+        <result column="leavetime" property="leavetime" />
+    </resultMap>
+
+
+    <select id="getListPages" resultType="com.ly.personalsys.entity.Leave">
+
+        SELECT li.*,ei.name empname,ji.name jobname,di.name deptname,lsi.name statusname,lti.name leavetname
+        FROM leave_inf li,employee_inf ei,job_inf ji,dept_inf di,leavestatus_inf lsi,leavetype_inf lti
+        WHERE li.emp_id = ei.id
+        AND   li.job_id = ji.id
+        AND   li.dept_id = di.id
+        AND   li.leavestatus = lsi.id
+        AND   li.leavetype = lti.id
+        <if test='content != null and content != ""'>
+            AND( ei.name LIKE #{content}
+            OR   ji.name LIKE #{content}
+            OR   di.name LIKE #{content}
+            OR   lti.name LIKE #{content}
+            OR   lsi.name LIKE #{content}
+            )
+        </if>
+    </select>
+
+    <select id="getListByEmpId" resultType="com.ly.personalsys.entity.Leave">
+
+        SELECT li.*,ei.name empname,ji.name jobname,di.name deptname,lsi.name statusname,lti.name leavetname
+        FROM leave_inf li,employee_inf ei,job_inf ji,dept_inf di,leavestatus_inf lsi,leavetype_inf lti
+        WHERE li.emp_id = ei.id
+        AND   li.job_id = ji.id
+        AND   li.dept_id = di.id
+        AND   li.leavestatus = lsi.id
+        AND   li.leavetype = lti.id
+        <if test='content != null and content != ""'>
+            AND(li.leavetime LIKE #{content})
+        </if>
+        ORDER BY li.leavetime DESC
+    </select>
+
+</mapper>
